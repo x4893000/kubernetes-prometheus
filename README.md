@@ -1,5 +1,14 @@
 # Kubernetes Setup for Prometheus and Grafana
 
+## Pre-requirement
+```bash
+kubectl label node <k8s-node-name> prometheus=prometheus-core
+kubectl label node <k8s-node-name> grafana=grafana-core
+ssh <k8s-node-name>
+mkdir -p /opt/kubernetes-prometheus/prometheus
+mkdir -p /opt/kubernetes-prometheus/grafana
+```
+
 ## Quick start
 
 To quickly start all the things just do this:

@@ -54,5 +54,5 @@ spec:
       volumes:
       - name: grafana-persistent-storage
         hostPath:
-          path: /opt/prometheus/data/grafana
+          path: /opt/kubernetes-prometheus/grafana
           type: Directory
