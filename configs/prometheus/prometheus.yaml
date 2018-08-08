@@ -18,6 +18,23 @@ scrape_configs:
         regex: '(.*):10250'
         replacement: '${1}:10255'
         target_label: __address__
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: hostname
+
+  - job_name: 'kubernetes-cadvisor'
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    kubernetes_sd_configs:
+      - role: node
+    relabel_configs:
+    - source_labels: [__meta_kubernetes_node_address_InternalIP]
+      target_label: __address__
+      regex: '(.*)'
+      replacement: '${1}:4194'
+    - source_labels: [__meta_kubernetes_node_name]
+      target_label: hostname
+
 
   # https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml#L79
   - job_name: 'kubernetes-endpoints'
@@ -48,6 +65,8 @@ scrape_configs:
       - source_labels: [__meta_kubernetes_service_name]
         action: replace
         target_label: kubernetes_name
+      - source_labels: [__meta_kubernetes_pod_node_name]
+        target_label: hostname
 
   # https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml#L119
   - job_name: 'kubernetes-services'
@@ -72,6 +91,8 @@ scrape_configs:
         target_label: kubernetes_namespace
       - source_labels: [__meta_kubernetes_service_name]
         target_label: kubernetes_name
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: hostname
 
   # https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml#L156
   - job_name: 'kubernetes-pods'
