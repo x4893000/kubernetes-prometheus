@@ -413,12 +413,12 @@ spec:
       volumes:
       - name: grafana-persistent-storage
         hostPath:
-          path: /opt/prometheus/data/grafana
+          path: /opt/kubernetes-prometheus/grafana
           type: Directory
 ---
 apiVersion: v1
 data:
-  alert-dashboard.json: |-
+  alert-dashboard.json: |
     {
       "__inputs": [
         {
@@ -1500,7 +1500,7 @@ data:
         "list": []
       },
       "time": {
-        "from": "now-6h",
+        "from": "now-3h",
         "to": "now"
       },
       "timepicker": {
@@ -1533,7 +1533,7 @@ data:
       "uid": "JIIs7jFmk",
       "version": 54
     }
-  cluster-dashboard.json: |-
+  cluster-dashboard.json: |
     {
       "__inputs": [
         {
@@ -1635,7 +1635,7 @@ data:
               "expr": "sum(rate(node_cpu{mode=\"idle\"}[2m])) * 100",
               "hide": false,
               "intervalFactor": 10,
-              "legendFormat": "",
+              "legendFormat": "cpu",
               "refId": "A",
               "step": 50
             }
@@ -2377,7 +2377,7 @@ data:
         "list": []
       },
       "time": {
-        "from": "now-1h",
+        "from": "now-3h",
         "to": "now"
       },
       "timepicker": {
@@ -2410,7 +2410,7 @@ data:
       "uid": "14KbmCFiz",
       "version": 1
     }
-  deployment-dashboard.json: |-
+  deployment-dashboard.json: |
     {
       "__inputs": [
         {
@@ -3220,7 +3220,7 @@ data:
         ]
       },
       "time": {
-        "from": "now-6h",
+        "from": "now-3h",
         "to": "now"
       },
       "timepicker": {
@@ -3877,7 +3877,7 @@ data:
       "gnetId": 2,
       "description": "The  official, pre-built Prometheus Stats Dashboard."
     }
-  node-dashboard.json: |-
+  node-dashboard.json: |
     {
       "__inputs": [
         {
@@ -4744,7 +4744,7 @@ data:
             "multi": false,
             "name": "server",
             "options": [],
-            "query": "label_values(node_boot_time, hostname)",
+            "query": "label_values(hostname)",
             "refresh": 1,
             "regex": "",
             "sort": 3,
@@ -4757,8 +4757,8 @@ data:
         ]
       },
       "time": {
-        "from": "2018-08-01T06:43:59.509Z",
-        "to": "2018-08-01T08:43:59.509Z"
+        "from": "now-3h",
+        "to": "now"
       },
       "timepicker": {
         "refresh_intervals": [
@@ -4790,7 +4790,7 @@ data:
       "uid": "Vk5-iCKmz",
       "version": 2
     }
-  pod-dashboard.json: |-
+  pod-dashboard.json: |
     {
       "__inputs": [
         {
@@ -6218,7 +6218,7 @@ data:
         ]
       },
       "time": {
-        "from": "now-3d",
+        "from": "now-3h",
         "to": "now"
       },
       "timepicker": {
@@ -6555,7 +6555,7 @@ spec:
           name: prometheus-rules
       - name: prometheus-data
         hostPath:
-          path: /opt/prometheus/data/prometheus
+          path: /opt/kubernetes-prometheus/prometheus
           type: Directory
 ---
 apiVersion: extensions/v1beta1

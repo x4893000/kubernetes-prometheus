@@ -1,6 +1,8 @@
 # Kubernetes Setup for Prometheus and Grafana
 
 ## Pre-requirement
+
+You have to do things as above before deploy
 ```bash
 kubectl label node <k8s-node-name> prometheus=prometheus-core
 kubectl label node <k8s-node-name> grafana=grafana-core
@@ -13,8 +15,7 @@ mkdir -p /opt/kubernetes-prometheus/grafana
 
 To quickly start all the things just do this:
 ```bash
-kubectl apply \
-  --filename https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests-all.yaml
+kubectl create -f manifest-all.yml
 ```
 
 This will create the namespace `monitoring` and bring up all components in there.
@@ -22,6 +23,16 @@ This will create the namespace `monitoring` and bring up all components in there
 To shut down all components again you can just delete that namespace:
 ```bash
 kubectl delete namespace monitoring
+```
+
+## Configuration
+
+If you want to configure this project , follow the step as below:
+```bash
+Config file -> change config/
+K8S related -> change manifest/
+sh build.sh
+kubectl apply -f manifest-all.yml
 ```
 
 ## Default Dashboards
