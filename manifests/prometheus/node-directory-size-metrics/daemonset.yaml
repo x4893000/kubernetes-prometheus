@@ -59,6 +59,7 @@ spec:
         - "-root=/var/www"
         ports:
         - containerPort: 9102
+          hostPort: 9102
         volumeMounts:
         - name: metrics
           mountPath: /var/www
@@ -69,3 +70,5 @@ spec:
       - name: metrics
         emptyDir:
           medium: Memory
+      hostNetwork: true
+      hostPID: true

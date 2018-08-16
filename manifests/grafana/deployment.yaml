@@ -24,10 +24,10 @@ spec:
         resources:
           # keep request = limit to keep this container in guaranteed class
           requests:
-            cpu: 200m
+            cpu: 1000m
             memory: 1G
           limits:
-            cpu: 500m
+            cpu: 2000m
             memory: 2G
         env:
           # The following env variables set up basic auth twith the default admin user and admin password.
@@ -54,5 +54,5 @@ spec:
       volumes:
       - name: grafana-persistent-storage
         hostPath:
-          path: /opt/kubernetes-prometheus/grafana
+          path: /opt/prometheus/data/grafana
           type: Directory
