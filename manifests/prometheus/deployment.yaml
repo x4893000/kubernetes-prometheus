@@ -53,5 +53,5 @@ spec:
           name: prometheus-rules
       - name: prometheus-data
         hostPath:
-          path: /opt/prometheus/data/prometheus
+          path: /opt/kubernetes-prometheus/prometheus
           type: Directory
