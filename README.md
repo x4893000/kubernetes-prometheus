@@ -73,6 +73,12 @@ See grafana.net for some example [dashboards](https://grafana.net/dashboards) an
   - `Prometheus`: `prometheus`
   - `Save & Open`
 
+## GCPUG & JCCONF 2018 PPT Reference
+
+
+https://drive.google.com/file/d/1G7R9_lNMxaZL8piojWltAXDZapgc0dYi/view?usp=sharing
+
+
 ## Credit
 
 Alertmanager configs and integration in this repository was heavily inspired by the implementation in [kayrus/prometheus-kubernetes](https://github.com/kayrus/prometheus-kubernetes).
