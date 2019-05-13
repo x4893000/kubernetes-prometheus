@@ -4,14 +4,16 @@
 * [https://github.com/helm/charts/tree/master/stable/prometheus-operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator)
 
 ## Pre-requirement
-* 1. Existing Kubernetes Cluster
-* 2. [Install Helm](https://helm.sh/docs/using_helm/)
+- Existing Kubernetes Cluster
+- [Install Helm](https://helm.sh/docs/using_helm/)
+- [Nginx Ingress Controller](https://github.com/kubernetes/ingress-nginx)
 
 ## Custom Settings
-- 1. Import Custom Dashboard
+- Import Custom Dashboard
   - Put you custom dashboard json in templates/custom/import/configmap.yaml , it will auto-import when grafana been installed
-- 2. Create Notification Channel
+- Create Notification Channel
   - This package will create PagerDuty notification channel as default , then all alerts will send to this channel , you can change to others by editing templates/custom/import/job.yaml
+- Expose Prometheus & Grafna UI by ingress , basic protected by nginx whitelist
 
 
 ## Install
