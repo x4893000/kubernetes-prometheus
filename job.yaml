@@ -1,0 +1,62 @@
+---
+# Source: prometheus-operator/templates/custom/import_dashboard/job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: grafana-import-job
+  labels:
+    app: grafana
+    component: import-job
+spec:
+  template:
+    metadata:
+      name: grafana-import-job
+      labels:
+        app: grafana
+        component: import-job
+    spec:
+      serviceAccountName: prometheus-custom
+      initContainers:
+      - name: wait-for-endpoints
+        image: giantswarm/tiny-tools
+        imagePullPolicy: IfNotPresent
+        command: ["fish", "-c", "echo \"waiting for endpoints...\"; while true; set endpoints (curl -s --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt --header \"Authorization: Bearer \"(cat /var/run/secrets/kubernetes.io/serviceaccount/token) https://kubernetes.default.svc/api/v1/namespaces/monitoring/endpoints/prometheus-grafana); echo $endpoints | jq \".\"; if test (echo $endpoints | jq -r \".subsets[]?.addresses // [] | length\") -gt 0; exit 0; end; echo \"waiting...\";sleep 1; end"]
+        args: ["monitoring", "prometheus-grafana"]
+      containers:
+
+      - name: grafana-import-job
+        image: giantswarm/tiny-tools
+        command: ["/bin/sh", "-c"]
+        workingDir: /opt/grafana-import-dashboards
+        args:
+          - >
+            sleep 10000;
+            curl --silent --fail --show-error \
+             --request POST http://admin:abc123123@prometheus-grafana/api/alert-notifications \
+             --header "Content-Type: application/json" \
+             --data-binary '{"type":"pagerduty","sendReminder":false,"disableResolveMessage":false,"frequency":"15m","settings":{"httpMethod":"POST","autoResolve":true,"uploadImage":true,"integrationKey":"f3823c1602e54d8285cd699511567b09","isDefault":true,"name":"PagerDuty"}'
+
+            for file in *-dashboard.json ; do
+              if [ -e "$file" ] ; then
+                echo "importing $file" &&
+                ( echo '{"dashboard":'; \
+                  cat "$file"; \
+                  echo ',"overwrite":true,"inputs":[{"name":"DS_PROMETHEUS","type":"datasource","pluginId":"prometheus","value":"prometheus"}]}' ) \
+                | jq -c '.' \
+                | curl --silent --fail --show-error \
+                  --request POST http://admin:abc123123@prometheus-grafana/api/dashboards/import \
+                  --header "Content-Type: application/json" \
+                  --data-binary "@-" ;
+                echo "" ;
+              fi
+            done
+
+        volumeMounts:
+        - name: config-volume
+          mountPath: /opt/grafana-import-dashboards
+      restartPolicy: Never
+      volumes:
+      - name: config-volume
+        configMap:
+          name: grafana-import-dashboards
+

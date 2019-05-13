@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prometheus-grafana-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: 12.1.79.146/32,59.124.104.119/32
+spec:
+  rules:
+    - host: {{ .Values.domain_prometheus }}
+      http:
+        paths:
+        - backend:
+            serviceName: {{ .Release.Name }}-prometheus-oper-prometheus
+            servicePort: 9090
+    - host: {{ .Values.domain_grafana }}
+      http:
+        paths:
+        - backend:
+            serviceName: {{ .Release.Name }}-grafana
+            servicePort: 80
