@@ -1,6 +1,6 @@
-# Prometheus Operator and custom settings
+# Prometheus Operator and Custom Settings Automation
 
-##Folk from
+## Folk from
 * [https://github.com/helm/charts/tree/master/stable/prometheus-operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator)
 
 ## Pre-requirement
