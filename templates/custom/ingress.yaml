@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: prometheus-grafana-ingress
   annotations:
-    nginx.ingress.kubernetes.io/whitelist-source-range: 12.1.79.146/32,59.124.104.119/32
+    nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
 spec:
   rules:
     - host: {{ .Values.domain_prometheus }}
